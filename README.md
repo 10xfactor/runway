@@ -54,7 +54,14 @@ def flow() -> Flow:
 
 ## Extend it
 
-Validators, model providers, event sinks, and more are plugins: `runway ext list`. See `CONTRIBUTING.md`, `GOVERNANCE.md`.
+Validators, event sinks, and hooks are plugins discovered from entry points. Scaffold one with a conformance test:
+
+```bash
+runway new validator my-check   # also: sink, hook
+cd my-check && pip install -e . && pytest && runway ext list
+```
+
+Installed sinks and hooks receive every run's events automatically. All plugin groups: `runway ext list`. See `CONTRIBUTING.md`, `GOVERNANCE.md`.
 
 ## Concepts
 

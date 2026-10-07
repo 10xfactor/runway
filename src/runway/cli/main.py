@@ -20,6 +20,7 @@ from runway.api.flow import Flow, load_flow
 from runway.core.errors import ConfigError, ReplayStaleError, RunwayError
 from runway.core.events import Event
 from runway.core.states import RunStatus
+from runway.extensions.hooks import load_listeners
 from runway.extensions.registry import discover
 from runway.ports.llm import LLMClient
 from runway.runtime.run import Run, RunResult
@@ -63,7 +64,7 @@ def _exec(flow: Flow, home: Path, entrypoint: str, parent: tuple[str, str, bool]
         llm = LiteLLMClient()
     else:
         llm = flow.llm
-    run = Run(flow.graph, store, artifacts, llm, entrypoint=entrypoint, listeners=[_line])
+    run = Run(flow.graph, store, artifacts, llm, entrypoint=entrypoint, listeners=[_line, *load_listeners()])
 
     async def main() -> RunResult:
         loop = asyncio.get_running_loop()
@@ -194,6 +195,24 @@ def doctor(home: Home = Path(".runway")) -> None:
     for p in discover():
         out.print(f"ext {p.group}:{p.name} ({p.dist} {p.version}) {'ERROR ' + p.error if p.error else 'ok'}")
     raise typer.Exit(1 if bad else 0)
+
+
+@app.command()
+def new(kind: str, name: str, out_dir: Annotated[Path | None, typer.Option("--dir")] = None) -> None:
+    """Scaffold a plugin package: ``runway new validator my-check``."""
+    from runway.extensions.scaffold import render
+
+    try:
+        files = render(kind, name)
+    except ValueError as e:
+        raise typer.Exit(_fail(str(e))) from e
+    root = out_dir or Path(name)
+    if root.exists():
+        raise typer.Exit(_fail(f"{root} already exists"))
+    for rel, text in files.items():
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
+        (root / rel).write_text(text, "utf-8")
+    out.print(f"created {root}/ - next: cd {root} && pip install -e . && pytest && runway ext list")
 
 
 @ext_app.command("list")

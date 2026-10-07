@@ -30,23 +30,23 @@ export function CommandPalette() {
 
   return (
     <>
-      <Command.Dialog open={open} onOpenChange={setOpen} label="Command palette" className="fixed left-1/2 top-[18%] z-[60] w-[560px] -translate-x-1/2 overflow-hidden rounded-md border border-line-strong bg-panel shadow-2xl">
+      <Command.Dialog open={open} onOpenChange={setOpen} label="Command palette" overlayClassName="fixed inset-0 z-[59] bg-black/50" contentClassName="fixed left-1/2 top-[18%] z-[60] w-[560px] -translate-x-1/2 overflow-hidden rounded-md border border-line-strong bg-panel shadow-2xl">
         <Command.Input placeholder="Jump to a run, task, or action..." className="w-full border-b border-line bg-transparent px-4 py-3 text-sm outline-none placeholder:text-fg3" />
         <Command.List className="max-h-80 overflow-auto p-2">
           <Command.Empty className="p-4 text-center text-fg3">No results</Command.Empty>
-          <Command.Group heading="Navigate" className="[&_[cmdk-group-heading]]:label [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5">
+          <Command.Group heading="Navigate" className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-fg3">
             <Item onSelect={() => go("/")}>Runs</Item>
             <Item onSelect={() => go("/settings")}>Settings</Item>
           </Command.Group>
           {inRun && (
-            <Command.Group heading="This run" className="[&_[cmdk-group-heading]]:label [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5">
+            <Command.Group heading="This run" className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-fg3">
               {Object.keys(snap.tasks).map((t) => <Item key={t} onSelect={() => go(`/runs/${runId}/tasks/${t}`)}>Inspect task: {t}</Item>)}
               <Item onSelect={() => go(`/runs/${runId}/replay${selected ? `?from=${selected}` : ""}`)}>Replay{selected ? ` from ${selected}` : ""}...</Item>
               <Item onSelect={() => { setFollow(!follow); setOpen(false); }}>Toggle follow active</Item>
               <Item onSelect={() => { void navigator.clipboard?.writeText(runId ?? ""); setOpen(false); }}>Copy run id</Item>
             </Command.Group>
           )}
-          <Command.Group heading="Runs" className="[&_[cmdk-group-heading]]:label [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5">
+          <Command.Group heading="Runs" className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-fg3">
             {runs.slice(0, 15).map((r) => <Item key={r.run_id} onSelect={() => go(`/runs/${r.run_id}`)}><span className="mono">{r.run_id}</span> <span className="text-fg3">{r.graph_id} - {r.status}</span></Item>)}
           </Command.Group>
         </Command.List>

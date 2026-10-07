@@ -40,7 +40,7 @@ function DagInner({ graph, tasks, selected, onSelect, follow, overlay, minimap =
   );
   const fitted = useRef(false);
   useEffect(() => {
-    if (!fitted.current && nodes.length) { fitted.current = true; setTimeout(() => rf.fitView({ padding: 0.2, duration: 300 }), 30); }
+    if (!fitted.current && nodes.length) { fitted.current = true; for (const ms of [30, 400]) setTimeout(() => rf.fitView({ padding: 0.2, duration: 300 }), ms); } // 2nd pass: dialogs animate in
   }, [nodes.length, rf]);
   const activeKey = Object.entries(tasks).filter(([, t]) => ACTIVE.includes(t.status)).map(([n]) => n).join(",");
   useEffect(() => {
@@ -51,7 +51,7 @@ function DagInner({ graph, tasks, selected, onSelect, follow, overlay, minimap =
 
   return (
     <ReactFlow
-      nodes={nodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} minZoom={0.2} maxZoom={1.6}
+      nodes={nodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} fitView fitViewOptions={{ padding: 0.2 }} minZoom={0.2} maxZoom={1.6}
       nodesConnectable={false} proOptions={{ hideAttribution: true }}
       onNodeClick={(_, n) => onSelect(n.id)} onPaneClick={() => onSelect(null)}
     >

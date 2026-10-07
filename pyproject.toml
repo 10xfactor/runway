@@ -35,9 +35,9 @@ dependencies = [
 ui = ["fastapi>=0.110", "uvicorn>=0.27", "sse-starlette>=2.0"]
 
 [project.urls]
-Homepage = "https://github.com/knockhawk/runway"
-Issues = "https://github.com/knockhawk/runway/issues"
-Changelog = "https://github.com/knockhawk/runway/releases"
+Homepage = "https://github.com/10xfactor/runway"
+Issues = "https://github.com/10xfactor/runway/issues"
+Changelog = "https://github.com/10xfactor/runway/releases"
 
 [project.scripts]
 runway = "runway.cli.main:main"

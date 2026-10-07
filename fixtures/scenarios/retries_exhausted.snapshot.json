@@ -1,0 +1,136 @@
+{
+  "breach": null,
+  "budget": {
+    "cost_usd": {
+      "limit": 10.0,
+      "used": 0.00021700000000000002
+    },
+    "tokens": {
+      "limit": 1000000.0,
+      "used": 217.0
+    }
+  },
+  "graph": {
+    "edges": [],
+    "nodes": [
+      {
+        "input_contract": "Src",
+        "max_retries": 2,
+        "model": "demo-model",
+        "name": "architect",
+        "output_contract": "Silver",
+        "validators": [
+          [
+            "lineage"
+          ]
+        ]
+      }
+    ]
+  },
+  "run": {
+    "created_at": "2026-01-01T00:00:00.200000Z",
+    "ended_at": "2026-01-01T00:00:02.900000Z",
+    "entrypoint": null,
+    "error_code": "RETRIES_EXHAUSTED",
+    "graph_hash": "cc9b7e733c2d63e4645586bfbe9009d1f37f6c66e8b90619b6fda637a1e5cfc7",
+    "graph_id": "single",
+    "input_artifact_id": "7dbe975f66dd2142784938d2866c64387ab8eef14dfebce890ad33b596827297",
+    "parent_run_id": null,
+    "replay_from": null,
+    "run_id": "run_0001",
+    "started_at": "2026-01-01T00:00:00.300000Z",
+    "status": "FAILED"
+  },
+  "seq": 26,
+  "tasks": {
+    "architect": {
+      "artifact_id": null,
+      "attempts": [
+        {
+          "cost_usd": 3.2e-05,
+          "feedback_artifact_id": "9e9b9dc2d6ff8124be1883aef7e81f57e8ac3f896670842ca0c20322b492036c",
+          "issue_count": 1,
+          "issues": [
+            {
+              "code": "lineage",
+              "hint": "Use only provided values",
+              "message": "'x1' is not an allowed value",
+              "path": "lineage_map.a",
+              "severity": "error"
+            }
+          ],
+          "kind": "initial",
+          "latency_ms": 50,
+          "n": 1,
+          "outcome": "rejected",
+          "proposal_artifact_id": "29e76842d6ad55b6d8c1069f7b824958fdd63cda07cd71c69b15fcc6ab012f21",
+          "proposal_fingerprint": "0f02af9eb91f9a60a93360604388b2e935f00c100dc2e445e763ac6c3de25a68",
+          "tokens": 32
+        },
+        {
+          "cost_usd": 8.400000000000001e-05,
+          "feedback_artifact_id": "574bdb38b5e6536bbad20d958bf60774ace98f6c98bb73915f142d08318e3772",
+          "issue_count": 1,
+          "issues": [
+            {
+              "code": "lineage",
+              "hint": "Use only provided values",
+              "message": "'x2' is not an allowed value",
+              "path": "lineage_map.a",
+              "severity": "error"
+            }
+          ],
+          "kind": "repair",
+          "latency_ms": 50,
+          "n": 2,
+          "outcome": "rejected",
+          "proposal_artifact_id": "16940e63d41cc45d69737e4dabf13b59ce4659bdf72d9a6aed2694e511d37db5",
+          "proposal_fingerprint": "7e76bfd92c69e0e133434e472615dd61f3f9e51aeca96294a69fa3e23a900c05",
+          "tokens": 84
+        },
+        {
+          "cost_usd": 0.000101,
+          "feedback_artifact_id": null,
+          "issue_count": 1,
+          "issues": [
+            {
+              "code": "lineage",
+              "hint": "Use only provided values",
+              "message": "'x3' is not an allowed value",
+              "path": "lineage_map.a",
+              "severity": "error"
+            }
+          ],
+          "kind": "repair",
+          "latency_ms": 50,
+          "n": 3,
+          "outcome": "rejected",
+          "proposal_artifact_id": "8e1c8d73d5cc0201b730ea2185b509318e9793d70cb01e4433ef837e9d7fb7c0",
+          "proposal_fingerprint": "7aa4ab1e9da45d997109d7c005a1fc62e9b3dc6a8c4a989d4b4d3a05083bf5eb",
+          "tokens": 101
+        }
+      ],
+      "cache_components": {
+        "agent": "16cfc97303c9855c1da33d444f1921ccfcb778ceeb6e52116af5603a5141646c",
+        "input_schema": "c9f65e8b0afb9caab494d7730b87761374d175ffbd1a738eb7dcf5e1f6a08fca",
+        "inputs": "8be28344c14cd95e592faf888bdeda886638d4af68ab5edc92e7193701daadf6",
+        "output_schema": "134800d67fb14cde55d4189aaaa0f9016625d8d9e4ab2f51b263f7c32dc5fc97",
+        "task": "architect@1",
+        "validators": "486e01dd9d8d6717f1d94c5be92d0183a263c90303de9891f7a2971b1d1d3509"
+      },
+      "cache_key": "ca365c61aa7444ca4a12799b6cbee0d1dd769793604030f57a6e7b4751208fc7",
+      "cost_usd": 0.00021700000000000002,
+      "duration_ms": 0,
+      "error_code": "RETRIES_EXHAUSTED",
+      "from_run_id": null,
+      "started_ts": "2026-01-01T00:00:00.600000Z",
+      "status": "FAILED",
+      "tokens": 217
+    }
+  },
+  "totals": {
+    "cost_usd": 0.00021700000000000002,
+    "duration_ms": 2700.0,
+    "tokens": 217.0
+  }
+}

@@ -1,0 +1,46 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions: { contents: read }
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: { python: ["3.11", "3.12", "3.13"] }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --all-extras --python ${{ matrix.python }}
+      - run: uv run ruff check . && uv run ruff format --check .
+      - run: uv run mypy src
+      - run: uv run lint-imports
+      - run: uv run pytest -q
+  ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: ui/pnpm-lock.yaml }
+      - run: uv sync --all-extras
+      - working-directory: ui
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm tsc --noEmit
+          pnpm vitest run
+          pnpm build
+          pnpm exec playwright install --with-deps chromium
+          pnpm exec playwright test
+  dco:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Require Signed-off-by on every commit
+        run: |
+          bad=$(git log --format='%H %s' origin/${{ github.base_ref }}..HEAD --grep='^Signed-off-by:' --invert-grep | grep -v ' Merge ' || true)
+          [ -z "$bad" ] || { echo "Missing DCO sign-off (use git commit -s):"; echo "$bad"; exit 1; }

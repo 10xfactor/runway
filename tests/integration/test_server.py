@@ -62,6 +62,20 @@ def test_payload_gate_and_diff_paths_only(client):
     assert "lineage_map.amount" in diff["fixed_paths"]
 
 
+def test_artifact_id_cannot_escape_store(client):
+    for bad in ("ab%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd", "..%2F..%2Fsecret", "zz" * 32):
+        r = client.get(f"/api/artifacts/{bad}?meta=1", headers=H)
+        assert r.status_code != 200 or "artifact_id" not in r.text  # 404, or SPA fallback HTML; never a record
+    assert client.get(f"/api/artifacts/{'zz' * 32}?meta=1", headers=H).status_code == 404
+
+
+def test_fs_store_rejects_non_hash_ids(tmp_path):
+    store = FsArtifactStore(tmp_path)
+    assert not store.exists("ab/../../../../etc/passwd")
+    with pytest.raises(ValueError):
+        store.get("ab/../../../../etc/passwd")
+
+
 def test_sse_replays_all_events_then_ends(client):
     rid = client.run_id
     with client.stream("GET", f"/api/runs/{rid}/stream?after=50&token={TOKEN}") as r:

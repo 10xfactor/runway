@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 
 from runway.core.artifact import ArtifactRecord
+
+_ID = re.compile(r"[0-9a-f]{64}")  # sha256 hex; anything else could escape the store root
 
 
 class FsArtifactStore:
@@ -14,6 +17,8 @@ class FsArtifactStore:
         self.root.mkdir(parents=True, exist_ok=True)
 
     def _path(self, artifact_id: str) -> Path:
+        if not _ID.fullmatch(artifact_id):
+            raise ValueError("invalid artifact id")
         return self.root / artifact_id[:2] / f"{artifact_id[2:]}.json"
 
     def put(self, record: ArtifactRecord) -> int:
@@ -35,4 +40,4 @@ class FsArtifactStore:
         return ArtifactRecord.model_validate_json(self._path(artifact_id).read_text("utf-8"))
 
     def exists(self, artifact_id: str) -> bool:
-        return self._path(artifact_id).exists()
+        return bool(_ID.fullmatch(artifact_id)) and self._path(artifact_id).exists()

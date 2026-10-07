@@ -74,7 +74,7 @@ export const httpApi: Api = {
   replayPlan: (r, t) => post(`/runs/${r}/replay/plan`, { from_task: t }),
   replayStart: async (r, t, allow) => (await post<{ child_run_id: string }>(`/runs/${r}/replay`, { from_task: t, allow_stale: allow })).child_run_id,
   cancel: async (r) => { await post(`/runs/${r}/cancel`); },
-  demoStart: async (failAt) => (await post<{ run_id: string }>(`/demo/start${failAt ? `?fail_at=${failAt}` : ""}`)).run_id,
+  demoStart: async (failAt) => (await post<{ run_id: string }>(`/demo/start${failAt ? `?fail_at=${encodeURIComponent(failAt)}` : ""}`)).run_id,
   compare: (a, b) => call(`/compare?a=${a}&b=${b}`),
 };
 

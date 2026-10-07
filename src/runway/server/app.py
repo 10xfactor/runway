@@ -248,7 +248,7 @@ def create_app(home: Path, token: str, expose_payloads: bool = False, hosts: set
 def serve(home: Path, host: str, port: int, open_browser: bool = True, expose_payloads: bool = False) -> None:
     import uvicorn
 
-    if host not in ("127.0.0.1", "localhost", "::1"):
+    if host not in ("127.0.0.1", "localhost"):
         raise SystemExit("refusing to bind a non-loopback address; the Console is local-only")
     token = os.environ.get("RUNWAY_TOKEN") or new_token()
     url = f"http://{host}:{port}/#token={token}"

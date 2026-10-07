@@ -16,6 +16,14 @@ jobs:
       - run: uv run mypy src
       - run: uv run lint-imports
       - run: uv run pytest -q
+  licenses:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --all-extras
+      - name: No copyleft dependencies (MIT project)
+        run: uv run --with pip-licenses pip-licenses --fail-on="GNU General Public License v2 (GPLv2);GNU General Public License v3 (GPLv3);GNU Affero General Public License v3 (AGPLv3);GPL-2.0;GPL-3.0;AGPL-3.0"
   ui:
     runs-on: ubuntu-latest
     steps:

@@ -9,7 +9,20 @@ description = "Agentic + deterministic framework: probabilistic agents propose, 
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
-license-files = ["LICENSE"]
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+authors = [{ name = "The Runway Authors (10x Factor Community Initiative)" }]
+keywords = ["agents", "llm", "workflow", "validation", "deterministic", "event-sourcing", "framework"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+  "Typing :: Typed",
+]
 dependencies = [
   "pydantic>=2.6.0",
   "litellm>=1.30.0",
@@ -20,6 +33,11 @@ dependencies = [
 
 [project.optional-dependencies]
 ui = ["fastapi>=0.110", "uvicorn>=0.27", "sse-starlette>=2.0"]
+
+[project.urls]
+Homepage = "https://github.com/knockhawk/runway"
+Issues = "https://github.com/knockhawk/runway/issues"
+Changelog = "https://github.com/knockhawk/runway/releases"
 
 [project.scripts]
 runway = "runway.cli.main:main"

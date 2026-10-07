@@ -13,3 +13,9 @@ Rules of the road:
   fixtures with `make fixtures` and keep both golden tests green.
 - Never put payloads, PHI, or PII in events, logs, or fixtures.
 - Build on Runway without forking: write a plugin (entry-point groups listed by `runway ext list`).
+
+## Licensing
+
+Runway is MIT. By contributing you certify the [Developer Certificate of Origin](https://developercertificate.org)
+(`git commit -s`); there is no CLA, and you keep your copyright. Only add dependencies with permissive licenses
+(MIT, BSD, Apache-2.0, ISC); CI rejects GPL/AGPL.
